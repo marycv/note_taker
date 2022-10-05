@@ -1,4 +1,5 @@
 // Require express
+const path = require('path');
 const express = require('express');
 
 // Require the 'db.json' file and store it in a variable called 'notes'
@@ -9,16 +10,16 @@ const PORT = 3001;
 const app = express();
 
 // Have the 'app' use appropriate middleware to parse body data
-app.use(express.static('Develop/public'));
+app.use(express.static('Develop'));
 
 // GET /notes should return the notes.html file
 app.get('/notes', (req, res) =>
-    res.sendFile(path.join(__dirname, 'notes.html'))
+    res.sendFile(path.join(__dirname, 'public/notes.html'))
 );
 
 // GET * should return the index.html file
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 // GET /api/notes should read the db.json file
@@ -32,3 +33,4 @@ app.get('*', (req, res) => {
 app.listen(PORT, () =>
     console.log(`Example app listening at http://localhost:${PORT}`)
 );
+ 
