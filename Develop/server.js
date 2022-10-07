@@ -1,10 +1,12 @@
-// Require express
 const path = require('path');
+
+// Require express
 const express = require('express');
 
 // Require the 'db.json' file and store it in a variable called 'notes'
 const notes = require('./db/db.json');
-const PORT = 3001;
+
+const PORT = process.env.PORT || 3001;
 
 // Use express to initialize the 'app' server
 const app = express();
@@ -17,11 +19,6 @@ app.get('/notes', (req, res) =>
     res.sendFile(path.join(__dirname, 'public/notes.html'))
 );
 
-// GET * should return the index.html file
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/index.html'));
-});
-
 // GET /api/notes should read the db.json file
 // app.get('/api/notes', (req, res) => res.json(notes));
 
@@ -29,6 +26,11 @@ app.get('*', (req, res) => {
 
     // fs.writeFile
 
+// GET * should return the index.html file
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/index.html'));
+});
+    
 // Use the 'app' to 'listen' to a specific 'PORT'
 app.listen(PORT, () =>
     console.log(`Example app listening at http://localhost:${PORT}`)
