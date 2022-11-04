@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 // Have the 'app' use appropriate middleware to parse body data
-// app.use(express.static('Develop'));
+app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
