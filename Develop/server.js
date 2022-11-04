@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 
 // Require express
 const express = require('express');
@@ -12,7 +13,9 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 // Have the 'app' use appropriate middleware to parse body data
-app.use(express.static('Develop'));
+// app.use(express.static('Develop'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // GET /notes should return the notes.html file
 app.get('/notes', (req, res) =>
@@ -20,11 +23,50 @@ app.get('/notes', (req, res) =>
 );
 
 // GET /api/notes should read the db.json file
-// app.get('/api/notes', (req, res) => res.json(notes));
+app.get('/api/notes', (req, res) => {
+    res.status(200).json(notes);
+});
 
 // POST /api/notes should receive a new note to save on the request body, add it to the db.json file and then return the new note to the client
+app.post('/api/notes', (req, res) => {
+    // Log that a POST request was received
+    console.info(`${req.method} request received to add a new note`);
 
-    // fs.writeFile
+    const { title, text } = req.body;
+    // If all the required properties are present
+    if (title && text) {
+        // Variable for the object we will save
+        const newNote = {
+            title,
+            text,
+        };
+
+        // Add a new note
+        notes.push(newNote);
+    
+        // Convert the data to a string so we can save it
+        const noteString = JSON.stringify(notes);
+
+        // Write the string to a file
+        fs.writeFile(`./db/db.json`, noteString, (err) =>
+            err
+                ? console.error(err)
+                : console.log(
+                    `New note has been written to JSON file`
+                )
+        );
+
+        const response = {
+            status: 'success',
+            body: newNote,
+        };
+
+        console.log(response);
+        res.status(201).json(response);
+    } else {
+        res.status(500).json('Error in posting note');
+    }
+});
 
 // GET * should return the index.html file
 app.get('*', (req, res) => {
