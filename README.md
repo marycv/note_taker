@@ -16,7 +16,7 @@ This project is a note taker application using Express.js and JSON.
 ## Usage
 A user is able to write and save notes. The user will be able to exit the app and still view the saved notes when they enter back to the note taking app.
 ## Preview
-https://git.heroku.com/protected-garden-53372.git
+https://protected-garden-53372.herokuapp.com/
 ## Installation
 Express.js
 ## Contact
